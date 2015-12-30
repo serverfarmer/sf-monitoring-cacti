@@ -4,9 +4,9 @@ path="/var/cache/cacti"
 
 
 if [ "$1" != "--force" ]; then
-	disks=`ls /dev/disk/by-id/ata-* |grep -v -- -part |grep -v VBOX_HARDDISK |grep -v CF_CARD |grep -vxFf /opt/sf-standby-monitor/config/devices.conf`
+	disks=`ls /dev/disk/by-id/ata-* |grep -v -- -part |grep -v VBOX_HARDDISK |grep -v CF_CARD |grep -v DVD |grep -vxFf /opt/sf-standby-monitor/config/devices.conf`
 else
-	disks=`ls /dev/disk/by-id/ata-* |grep -v -- -part |grep -v VBOX_HARDDISK |grep -v CF_CARD`
+	disks=`ls /dev/disk/by-id/ata-* |grep -v -- -part |grep -v VBOX_HARDDISK |grep -v CF_CARD |grep -v DVD`
 fi
 
 for disk in $disks; do
