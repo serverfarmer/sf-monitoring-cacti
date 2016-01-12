@@ -19,6 +19,10 @@ fi
 if ! grep -q /opt/sf-monitoring-cacti/cron /etc/crontab; then
 	echo "setting up crontab entries"
 
+	if [ -f /etc/vz/vz.conf ]; then
+		echo "*/5 * * * * root /opt/sf-monitoring-cacti/cron/vz-helper.sh" >>/etc/crontab
+	fi
+
 	if [ -f /etc/postfix/virtual_aliases ]; then
 		echo "*/5 * * * * root /opt/sf-monitoring-cacti/cron/mta-helper.sh" >>/etc/crontab
 	fi
