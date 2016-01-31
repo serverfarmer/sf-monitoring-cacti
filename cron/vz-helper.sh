@@ -13,8 +13,8 @@ do
 	# TODO: support for VETH
 	eval `/usr/sbin/vzctl exec $ID 'grep venet0 /proc/net/dev' | cut -f2 -d: | awk '{printf "VEIN=%s\nVEOUT=%s\n", $1, $9}'`
 
-	eval `/usr/sbin/vzquota stat $ID |grep 1k-blocks | awk '{printf "BLKUSED=%s\nBLKLIMIT=%s\n", $2, $3}'`
-	eval `/usr/sbin/vzquota stat $ID |grep inodes | awk '{printf "INOUSED=%s\nINOLIMIT=%s\n", $2, $3}'`
+	eval `/usr/sbin/vzquota stat $ID |sed s/\\*//g |grep 1k-blocks | awk '{printf "BLKUSED=%s\nBLKLIMIT=%s\n", $2, $3}'`
+	eval `/usr/sbin/vzquota stat $ID |sed s/\\*//g |grep inodes | awk '{printf "INOUSED=%s\nINOLIMIT=%s\n", $2, $3}'`
 
 	echo "id:$ID netin:$VEIN netout:$VEOUT memcur:$((MEMCUR*4096)) memmax:$((MEMMAX*4096)) memlimit:$((MEMLIMIT*4096)) blkused:$((BLKUSED*1024)) blklimit:$((BLKLIMIT*1024)) inoused:$INOUSED inolimit:$INOLIMIT" >>$file.new
 done
