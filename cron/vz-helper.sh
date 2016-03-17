@@ -21,4 +21,4 @@ done
 
 mv -f $file.new $file 2>/dev/null
 
-/opt/sf-monitoring-cacti/cron/send.sh $file
+/opt/farm/ext/monitoring-cacti/cron/send.sh $file

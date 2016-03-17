@@ -3,7 +3,7 @@
 . /opt/farm/scripts/functions.custom
 
 
-bash /opt/farm/scripts/setup/role.sh sf-standby-monitor
+/opt/farm/scripts/setup/role.sh sf-standby-monitor
 
 mkdir -p /var/cache/cacti
 
@@ -16,21 +16,21 @@ if grep -q /opt/farm/scripts/cacti /etc/crontab; then
 	sed -i -e "/farm\/scripts\/cacti\//d" /etc/crontab
 fi
 
-if ! grep -q /opt/sf-monitoring-cacti/cron /etc/crontab; then
+if ! grep -q /opt/farm/ext/monitoring-cacti/cron /etc/crontab; then
 	echo "setting up crontab entries"
 
 	if [ -f /etc/vz/vz.conf ]; then
-		echo "*/5 * * * * root /opt/sf-monitoring-cacti/cron/vz-helper.sh" >>/etc/crontab
+		echo "*/5 * * * * root /opt/farm/ext/monitoring-cacti/cron/vz-helper.sh" >>/etc/crontab
 	fi
 
 	if [ -f /etc/postfix/virtual_aliases ]; then
-		echo "*/5 * * * * root /opt/sf-monitoring-cacti/cron/mta-helper.sh" >>/etc/crontab
+		echo "*/5 * * * * root /opt/farm/ext/monitoring-cacti/cron/mta-helper.sh" >>/etc/crontab
 	fi
 
 	if [ "$HWTYPE" = "physical" ]; then
-		echo "*/5 * * * * root /opt/sf-monitoring-cacti/cron/smart-helper.sh" >>/etc/crontab
-		echo "*/5 * * * * root /opt/sf-monitoring-cacti/cron/thermal-helper.sh" >>/etc/crontab
-		echo "1   * * * * root /opt/sf-monitoring-cacti/cron/disklabel-helper.sh" >>/etc/crontab
+		echo "*/5 * * * * root /opt/farm/ext/monitoring-cacti/cron/smart-helper.sh" >>/etc/crontab
+		echo "*/5 * * * * root /opt/farm/ext/monitoring-cacti/cron/thermal-helper.sh" >>/etc/crontab
+		echo "1   * * * * root /opt/farm/ext/monitoring-cacti/cron/disklabel-helper.sh" >>/etc/crontab
 	fi
 fi
 
