@@ -6,4 +6,4 @@ if [ "$1" = "" ]; then
 	exit 1
 fi
 
-scp -B -q -i /root/.ssh/id_cacti -o StrictHostKeyChecking=no -o PasswordAuthentication=no $1 cacti-external@`cacti_ssh_target`/data |grep -v "lost connection"
+scp -B -q -i /root/.ssh/id_cacti -o StrictHostKeyChecking=no -o PasswordAuthentication=no $1 cacti-external@`cacti_ssh_target`/data 2>&1 |grep -v "lost connection"
