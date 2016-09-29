@@ -11,11 +11,6 @@ if ! grep -q /var/cache/cacti /etc/fstab && [ "$HWTYPE" = "physical" ]; then
 	echo "tmpfs /var/cache/cacti tmpfs noatime,size=16m 0 0" >>/etc/fstab
 fi
 
-if grep -q /opt/farm/scripts/cacti /etc/crontab; then
-	echo "removing old crontab entries"
-	sed -i -e "/farm\/scripts\/cacti\//d" /etc/crontab
-fi
-
 if ! grep -q /opt/farm/ext/monitoring-cacti/cron /etc/crontab; then
 	echo "setting up crontab entries"
 
