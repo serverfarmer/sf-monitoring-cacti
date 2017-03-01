@@ -14,6 +14,10 @@ fi
 if ! grep -q /opt/farm/ext/monitoring-cacti/cron /etc/crontab; then
 	echo "setting up crontab entries"
 
+	if [ -f /etc/lxc/default.conf ]; then
+		echo "*/5 * * * * root /opt/farm/ext/monitoring-cacti/cron/lxc-helper.sh" >>/etc/crontab
+	fi
+
 	if [ -f /etc/vz/vz.conf ]; then
 		echo "*/5 * * * * root /opt/farm/ext/monitoring-cacti/cron/vz-helper.sh" >>/etc/crontab
 	fi
