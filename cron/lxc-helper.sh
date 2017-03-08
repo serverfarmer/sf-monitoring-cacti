@@ -16,7 +16,7 @@ do
 
 	file2="$path/du-$ID.txt"
 	if [ ! -s $file2 ] || [ `stat -c %Y $file2` -le `date -d '-1 hour' +%s` ]; then
-		du -sb /var/lib/lxc/$ID |cut -f1 >$file2
+		du -sb /var/lib/lxc/$ID 2>/dev/null |cut -f1 >$file2
 	fi
 	SIZE="`cat $file2`"
 
