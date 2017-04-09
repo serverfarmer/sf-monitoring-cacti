@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 . /opt/farm/scripts/functions.custom
 
 if [ "$1" = "" ]; then
