@@ -5,7 +5,9 @@ file="/var/cache/cacti/thermal-$host.txt"
 
 if [ "`cat /proc/cpuinfo |grep Hardware |grep QNAP`" = "" ]; then
 
-	if [ "`cat /sys/class/dmi/id/product_name`" = "SBC-FITPC2" ]; then
+	if [ -f /etc/rpi-issue ]; then
+		echo "`/opt/farm/ext/monitoring-cacti/cron/thermal-dump-raspi.sh`" >$file.new
+	elif [ "`cat /sys/class/dmi/id/product_name`" = "SBC-FITPC2" ]; then
 		echo "`/opt/farm/ext/monitoring-cacti/cron/thermal-dump-fitpc2.sh`" >$file.new
 	else
 		echo "`/opt/farm/ext/monitoring-cacti/cron/thermal-dump-sensors.sh`" >$file.new
