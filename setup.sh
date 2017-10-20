@@ -3,7 +3,7 @@
 . /opt/farm/scripts/functions.custom
 
 
-/opt/farm/scripts/setup/role.sh sf-standby-monitor
+/opt/farm/scripts/setup/extension.sh sf-standby-monitor
 
 mkdir -p /var/cache/cacti
 
