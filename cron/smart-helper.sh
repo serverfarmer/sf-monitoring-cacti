@@ -2,19 +2,18 @@
 
 path="/var/cache/cacti"
 
+devices=`/opt/farm/ext/standby-monitor/utils/list-physical-drives.sh |grep -vxFf /etc/local/.config/standby.exceptions`
 
-if [ "$1" != "--force" ]; then
-	disks=`ls /dev/disk/by-id/ata-* 2>/dev/null |grep -v -- -part |grep -v VBOX |grep -v VMware |grep -v CF_CARD |grep -v DVD |grep -vxFf /opt/farm/ext/standby-monitor/config/devices.conf`
-else
-	disks=`ls /dev/disk/by-id/ata-* 2>/dev/null |grep -v -- -part |grep -v VBOX |grep -v VMware |grep -v CF_CARD |grep -v DVD`
-fi
+for device in $devices; do
+	devname=`readlink -f $device`
 
-for disk in $disks; do
-	device="`basename $disk`"
-	file="$path/$device.txt"
+	if ! grep -qxF $devname $path/usb.tmp || [ "$1" = "--force" ]; then
+		base="`basename $device`"
+		file="$path/$base.txt"
 
-	/usr/sbin/smartctl -d sat -T permissive -a $disk >$file.new
-	mv -f $file.new $file 2>/dev/null
+		/usr/sbin/smartctl -d sat -T permissive -a $device >$file.new
+		mv -f $file.new $file 2>/dev/null
 
-	/opt/farm/ext/monitoring-cacti/cron/send.sh $file
+		/opt/farm/ext/monitoring-cacti/cron/send.sh $file
+	fi
 done
