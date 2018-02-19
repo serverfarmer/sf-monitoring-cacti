@@ -3,9 +3,11 @@
 host="`hostname`"
 file="/var/cache/cacti/thermal-$host.txt"
 
-if [ "`cat /proc/cpuinfo |grep Hardware |grep QNAP`" = "" ]; then
+if [ "`cat /proc/cpuinfo |grep Hardware |grep QNAP`" = "" ]; then  # don't do anything on QNAP with Debian
 
-	if [ -f /etc/rpi-issue ]; then
+	if [ -f /etc/config/qpkg.conf ]; then  # still support QNAP with original QTS firmware
+		echo "`/opt/farm/ext/monitoring-cacti/cron/thermal-dump-qnap-qts.sh`" >$file.new
+	elif [ -f /etc/rpi-issue ]; then
 		echo "`/opt/farm/ext/monitoring-cacti/cron/thermal-dump-raspi.sh`" >$file.new
 	elif [ "`cat /sys/class/dmi/id/product_name`" = "SBC-FITPC2" ]; then
 		echo "`/opt/farm/ext/monitoring-cacti/cron/thermal-dump-fitpc2.sh`" >$file.new
