@@ -28,9 +28,16 @@ if ! grep -q /opt/farm/ext/monitoring-cacti/cron /etc/crontab; then
 
 	if [ "$HWTYPE" = "physical" ]; then
 		echo "*/5 * * * * root /opt/farm/ext/monitoring-cacti/cron/smart-helper.sh" >>/etc/crontab
-		echo "*/5 * * * * root /opt/farm/ext/monitoring-cacti/cron/thermal-helper.sh" >>/etc/crontab
 		echo "1   * * * * root /opt/farm/ext/monitoring-cacti/cron/disklabel-helper.sh" >>/etc/crontab
 	fi
+
+	if [ "$HWTYPE" = "physical" ] || [ "$HWTYPE" = "oem" ]; then
+		echo "*/5 * * * * root /opt/farm/ext/monitoring-cacti/cron/thermal-helper.sh" >>/etc/crontab
+	fi
+fi
+
+if [ -d /etc/config/ssh ] && [ ! -d /root/.ssh ] && [ ! -h /root/.ssh ]; then
+	ln -s /etc/config/ssh /root/.ssh
 fi
 
 if [ ! -f /root/.ssh/id_cacti ]; then
