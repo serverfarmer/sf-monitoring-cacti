@@ -3,16 +3,10 @@
 . /opt/farm/scripts/functions.custom
 
 
-/opt/farm/scripts/setup/extension.sh sf-standby-monitor
+/opt/farm/scripts/setup/extension.sh sf-cache-utils
 
 if [ "$HWTYPE" = "physical" ]; then
 	/opt/farm/scripts/setup/extension.sh sf-monitoring-smart
-fi
-
-mkdir -p /var/cache/cacti
-
-if ! grep -q /var/cache/cacti /etc/fstab && [ "$HWTYPE" = "physical" ]; then
-	echo "tmpfs /var/cache/cacti tmpfs noatime,size=16m 0 0" >>/etc/fstab
 fi
 
 if ! grep -q /opt/farm/ext/monitoring-cacti/cron /etc/crontab; then
