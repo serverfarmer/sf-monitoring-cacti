@@ -3,7 +3,7 @@
 host="`hostname`"
 file="/var/cache/cacti/temperntc-$host.txt"
 
-echo "`/opt/farm/ext/monitoring-cacti/cron/temperntc-monitor.pl`" >$file.new
+/opt/farm/ext/thermal-utils/sensors/temperntc.pl 2>/dev/null >$file.new
 
 echo -n "date " >>$file.new
 date +%s >>$file.new

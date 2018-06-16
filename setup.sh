@@ -4,6 +4,7 @@
 
 
 /opt/farm/scripts/setup/extension.sh sf-cache-utils
+/opt/farm/scripts/setup/extension.sh sf-thermal-utils
 
 if [ "$HWTYPE" = "physical" ]; then
 	/opt/farm/scripts/setup/extension.sh sf-monitoring-smart
