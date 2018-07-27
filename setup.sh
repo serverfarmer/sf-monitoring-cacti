@@ -1,6 +1,7 @@
 #!/bin/bash
 . /opt/farm/scripts/init
 . /opt/farm/scripts/functions.custom
+. /opt/farm/scripts/functions.dialog
 
 
 /opt/farm/scripts/setup/extension.sh sf-cache-utils
@@ -8,6 +9,21 @@
 
 if [ "$HWTYPE" = "physical" ]; then
 	/opt/farm/scripts/setup/extension.sh sf-monitoring-smart
+fi
+
+file="/etc/local/.config/cacti"
+
+if [ ! -s $file.target ]; then
+	default="cacti.`external_domain`:/external"
+	TARGET="`input \"enter Cacti target\" $default`"
+	PORT="`input \"enter Cacti port\" 22000`"
+	echo -n "$TARGET" >$file.target
+	echo -n "$PORT" >$file.port
+fi
+
+if [ ! -s $file.target ]; then
+	echo "skipping cacti configuration (no target configured)"
+	exit 0
 fi
 
 if ! grep -q /opt/farm/ext/monitoring-cacti/cron /etc/crontab; then
@@ -42,7 +58,7 @@ if [ ! -f /root/.ssh/id_cacti ]; then
 	echo "generating ssh key for cacti-external user"
 	ssh-keygen -t rsa -f /root/.ssh/id_cacti -P ""
 
-	echo "key generated, now paste the following public key into `cacti_ssh_target`/.ssh/authorized_keys file:"
+	echo "key generated, now paste the following public key into `cat $file.target`/.ssh/authorized_keys file:"
 	cat /root/.ssh/id_cacti.pub
 fi
 
