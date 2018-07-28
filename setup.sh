@@ -13,7 +13,7 @@ fi
 
 file="/etc/local/.config/cacti"
 
-if [ ! -s $file.target ]; then
+if [ ! -s $file.target ] && tty -s; then
 	default="cacti.`external_domain`:/external"
 	TARGET="`input \"enter Cacti target\" $default`"
 	PORT="`input \"enter Cacti port\" 22000`"
