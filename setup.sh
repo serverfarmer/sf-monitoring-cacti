@@ -1,6 +1,5 @@
-#!/bin/bash
+#!/bin/sh
 . /opt/farm/scripts/init
-. /opt/farm/scripts/functions.custom
 . /opt/farm/scripts/functions.dialog
 
 
@@ -14,7 +13,8 @@ fi
 file="/etc/local/.config/cacti"
 
 if [ ! -s $file.target ] && tty -s; then
-	default="cacti.`external_domain`:/external"
+	domain=`/opt/farm/config/get-external-domain.sh`
+	default="cacti.$domain:/external"
 	TARGET="`input \"enter Cacti target\" $default`"
 	PORT="`input \"enter Cacti port\" 22000`"
 	echo -n "$TARGET" >$file.target
