@@ -13,4 +13,4 @@ fi
 target="`cat $file.target`"
 port="`cat $file.port`"
 
-scp -B -q -i /root/.ssh/id_cacti -o StrictHostKeyChecking=no -o PasswordAuthentication=no -P $port $1 cacti-external@$target/data 2>&1 |grep -v "lost connection"
+timelimit -q -t2 -T3 scp -B -q -i /root/.ssh/id_cacti -o StrictHostKeyChecking=no -o PasswordAuthentication=no -P $port $1 cacti-external@$target/data 2>&1 |grep -v "lost connection"

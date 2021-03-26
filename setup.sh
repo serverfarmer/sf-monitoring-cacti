@@ -10,6 +10,8 @@ if [ "$HWTYPE" = "physical" ]; then
 	/opt/farm/scripts/setup/extension.sh sf-monitoring-smart
 fi
 
+/opt/farm/ext/packages/utils/install.sh timelimit
+
 file="/etc/local/.config/cacti"
 
 if [ ! -s $file.target ] && tty -s; then
